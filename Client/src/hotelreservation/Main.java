@@ -190,7 +190,7 @@ public class Main {
 					b.setIdCustomer(customerConnected.getId());
 					b.setRentalDate(rentalDate);
 					b.setNbNights(nbNights);
-					b.setCustomerResponse(null);
+					b.setCustomerResponse(" ");
 					System.out.print(hwp.book(b).get_return());
 					System.out.print("\n");
 

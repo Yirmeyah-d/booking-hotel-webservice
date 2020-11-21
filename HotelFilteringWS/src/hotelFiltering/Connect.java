@@ -182,6 +182,7 @@ public class Connect {
         
 
 
+
 		if(Integer.parseInt(existingReservation)!=0 && customerResponse.equals("Y")){
 			String sql = "UPDATE Reservation SET hotelId = ?, roomId = ? WHERE customerId = ? AND rentalDate = ? AND endDate = ? ";
 	
@@ -228,6 +229,7 @@ public class Connect {
 			}
 		}
 		
+
 		return result ;
 	}
 
