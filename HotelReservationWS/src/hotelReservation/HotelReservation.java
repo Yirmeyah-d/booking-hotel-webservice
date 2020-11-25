@@ -41,7 +41,7 @@ public class HotelReservation {
 		return restCallHotelsAvailable(rentalDate, nbNights, nbRooms);            
     }    
 	
-	public String restCallBooking(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, String customerResponse){
+	public String restCallBooking(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, int nbRooms, String customerResponse){
 		
 		Client client = new Client(new Context(), Protocol.HTTP);
 		// Create the client resource  
@@ -54,12 +54,14 @@ public class HotelReservation {
         form.add("idCustomer", Integer.toString(idCustomer));  
         form.add("rentalDate", rentalDate);  
         form.add("nbNights", Integer.toString(nbNights));  
+        form.add("nbRooms", Integer.toString(nbRooms));  
+
         form.add("customerResponse", customerResponse);  
 
 
         // Write the response entity on the console
 		try {
- 
+
 			return resource.post(form).getText();
 			
 		} catch (Exception e) {
@@ -69,8 +71,8 @@ public class HotelReservation {
 		
 	}
 	
-	public String book(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, String customerResponse){
-		return restCallBooking(hotelId,roomId,idCustomer,rentalDate,nbNights,customerResponse);
+	public String book(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, int nbRooms, String customerResponse){
+		return restCallBooking(hotelId,roomId,idCustomer,rentalDate,nbNights,nbRooms,customerResponse);
 	} 
 	
 	

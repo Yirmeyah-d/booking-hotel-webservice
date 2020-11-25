@@ -68,12 +68,12 @@ public class Connect {
 	}
 
 
-	public List<Hotel> getHotelsAvailable(String rentalDate, int nbNights) throws ParseException{
+	public List<Hotel> getHotelsAvailable(String rentalDate, int nbNights, int nbRooms) throws ParseException{
 		List<Hotel> hotels = new ArrayList<Hotel>();
 
-		String sql = "SELECT DISTINCT  idHotel, hotelName, hotelAdress, idRoom " +
+		String sql = "SELECT DISTINCT  Hotel.idHotel, Hotel.hotelName, Hotel.hotelAdress, Room.idRoom " +
 				"FROM Room, Hotel " + 
-				"WHERE idRoom NOT IN(SELECT roomId FROM Reservation WHERE (? BETWEEN rentalDate  AND endDate) OR (? BETWEEN rentalDate  AND endDate)) AND Hotel.idHotel == Room.hotelId ";
+				"WHERE Room.idRoom NOT IN(SELECT roomId FROM Reservation WHERE (? BETWEEN rentalDate  AND endDate) OR (? BETWEEN rentalDate  AND endDate)) AND Hotel.idHotel == Room.hotelId AND Hotel.idHotel IN ( SELECT DISTINCT Hotel.idHotel From Room,Hotel WHERE Room.idRoom NOT IN (SELECT roomId FROM Reservation WHERE ( ? BETWEEN rentalDate  AND endDate) OR ( ? BETWEEN rentalDate  AND endDate) ) AND Hotel.idHotel == Room.hotelId GROUP BY  Hotel.idHotel HAVING COUNT(Hotel.idHotel) >= ? ) ";
 
 
 	    Date rentalDateConverted =new SimpleDateFormat("yyyy-MM-dd").parse(rentalDate);  
@@ -91,6 +91,9 @@ public class Connect {
 			// set the value
 			pstmt.setString(1,rentalDate);
 			pstmt.setString(2,endDate);
+			pstmt.setString(3,rentalDate);
+			pstmt.setString(4,endDate);
+			pstmt.setInt(5,nbRooms);
 			//pstmt.setInt(3,nbRooms);
 
 			try(ResultSet rs  = pstmt.executeQuery()){
@@ -123,7 +126,7 @@ public class Connect {
 	public String checkExistingReservation(int idCustomer, String rentalDate, int nbNights) throws ParseException {
 		
 		int count = 0;
-		String sql = "SELECT COUNT(*) AS  count  From Reservation WHERE customerId = ? AND rentalDate = ? AND endDate = ? ";
+		String sql = "SELECT COUNT(*) AS  count  From Reservation WHERE customerId = ? AND ((? BETWEEN rentalDate AND endDate) OR (? BETWEEN rentalDate AND endDate)) ";
 		
 	    Date rentalDateConverted =new SimpleDateFormat("yyyy-MM-dd").parse(rentalDate);  
         Calendar c = Calendar.getInstance();
@@ -132,7 +135,7 @@ public class Connect {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
         String endDate = dateFormat.format(c.getTime());
         
-        
+        System.out.print(endDate);
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt  = conn.prepareStatement(sql);
 				){
@@ -159,10 +162,10 @@ public class Connect {
 	}
 	
 
-	public String insertReservation(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, String customerResponse) throws ParseException{
+	public String insertReservation(int hotelId , int roomId, int idCustomer, String rentalDate, int nbNights, int nbRooms, String customerResponse) throws ParseException{
 		// if hotelid and rommId not in select(list available hotels) then return false else return true
 		// if true insert.
-		List<Hotel> hotelsAvailable = this.getHotelsAvailable(rentalDate, nbNights);		
+		List<Hotel> hotelsAvailable = this.getHotelsAvailable(rentalDate, nbNights, nbRooms);		
 		String result = "The hotel "+ hotelId +" and the room " + roomId + " is not available";
 		for(Hotel hotel: hotelsAvailable){
 			  if(hotel.getId() == hotelId && hotel.getRoomId() == roomId) {
@@ -184,8 +187,9 @@ public class Connect {
 
 
 		if(Integer.parseInt(existingReservation)!=0 && customerResponse.equals("Y")){
-			String sql = "UPDATE Reservation SET hotelId = ?, roomId = ? WHERE customerId = ? AND rentalDate = ? AND endDate = ? ";
-	
+			String sql = "UPDATE Reservation SET hotelId = ?, roomId = ?, rentalDate = ? , endDate = ? WHERE customerId = ? AND ((? BETWEEN rentalDate AND endDate) OR (? BETWEEN rentalDate AND endDate)) ";
+			System.out.println("DAAAAAAAAAA !");
+
 
 			
 			try (Connection conn = this.connect();
@@ -194,9 +198,11 @@ public class Connect {
 				// set the value
 				pstmt.setInt(1,hotelId);
 				pstmt.setInt(2,roomId);
-				pstmt.setInt(3,idCustomer);
-				pstmt.setString(4,rentalDate);
-				pstmt.setString(5,endDate);
+				pstmt.setString(3,rentalDate);
+				pstmt.setString(4,endDate);
+				pstmt.setInt(5,idCustomer);
+				pstmt.setString(6,rentalDate);
+				pstmt.setString(7,endDate);
 	
 				pstmt.executeUpdate();
 	
@@ -205,6 +211,8 @@ public class Connect {
 			}
 		} else if (Integer.parseInt(existingReservation)!=0 && customerResponse.equals("N"))  {
 			result = "We keep your last reservation, Reservation successful";
+		} else if (Integer.parseInt(existingReservation)!=0 && (!customerResponse.equals("N") || !customerResponse.equals("Y")) )  {
+			result = "Please answer Y or N";
 		} else {
 		
 			String sql = "INSERT INTO Reservation (hotelId, roomId, customerId, rentalDate, endDate) VALUES (?, ?, ?, ?, ?)";
@@ -370,6 +378,8 @@ public class Connect {
 
 		}
 		Connect app = new Connect();
+		System.out.print(app.checkExistingReservation(2,"2020-06-21",3));
+        
 		
 		/*
 		Customer customer = app.register("Vivi", "JALLON","vivijallon@gmail.com","123456","0775342178");

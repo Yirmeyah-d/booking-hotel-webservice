@@ -16,8 +16,10 @@ public class Book extends ServerResource {
 		int idCustomer = (int) getRequestAttributes().get("idCustomer");
 		String rentalDate = (String) getRequestAttributes().get("rentalDate");
 		int nbNights = (int) getRequestAttributes().get("nbNights");
+		int nbRooms = (int) getRequestAttributes().get("nbRooms");
+
 		String customerResponse = (String) getRequestAttributes().get("customerResponse");
-		return "The client request is : " + hotelId + " " +  roomId + " " + idCustomer + " " + rentalDate + " " + nbNights + " " + customerResponse;
+		return "The client request is : " + hotelId + " " +  roomId + " " + idCustomer + " " + rentalDate + " " + nbNights + " " + nbRooms + " " + customerResponse;
 	}  
 	
 	
@@ -39,9 +41,10 @@ public class Book extends ServerResource {
         String idCustomer = form.getFirstValue("idCustomer");
         String rentalDate = form.getFirstValue("rentalDate");
         String nbNights = form.getFirstValue("nbNights");
+        String nbRooms = form.getFirstValue("nbRooms");
         String customerResponse = form.getFirstValue("customerResponse");
-        
-        String result = conn.insertReservation(Integer.parseInt(hotelId),Integer.parseInt(roomId),Integer.parseInt(idCustomer),rentalDate,Integer.parseInt(nbNights), customerResponse);
+
+        String result = conn.insertReservation(Integer.parseInt(hotelId),Integer.parseInt(roomId),Integer.parseInt(idCustomer),rentalDate,Integer.parseInt(nbNights), Integer.parseInt(nbRooms),customerResponse);
         
 
         

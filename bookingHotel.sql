@@ -36,11 +36,7 @@ INSERT INTO Reservation VALUES(6,1,1,2,"2020-06-21","2020-06-27");
 INSERT INTO Reservation VALUES(7,1,1,2,"2020-11-10","2020-11-20");
 
 
-Select  distinct h.idHotel,h.hotelName,h.hotelAdress,idRoom from Room,Hotel as h where idRoom NOT IN(SELECT roomId FROM Reservation WHERE ('2020-11-09' BETWEEN rentalDate  AND endDate) OR ('2020-11-11' BETWEEN rentalDate  AND endDate)) and h.idHotel ==Room.hotelId ;
 
-Select  distinct h.idHotel from Room,Hotel as h where idRoom NOT IN(SELECT roomId FROM Reservation WHERE ('2020-11-09' BETWEEN rentalDate  AND endDate) OR ('2020-11-11' BETWEEN rentalDate  AND endDate)) and h.idHotel ==Room.hotelId GROUP BY  h.idHotel HAVING COUNT(h.idHotel) >= 2 ;
+SELECT * FROM Reservation WHERE customerId = 2 AND (('2020-06-21' BETWEEN rentalDate AND endDate) OR ('2020-06-24' BETWEEN rentalDate AND endDate));
 
-Select  distinct h.idHotel,h.hotelName,h.hotelAdress,idRoom from Room,Hotel as h where idRoom NOT IN(SELECT roomId FROM Reservation WHERE ('2020-11-09' BETWEEN rentalDate  AND endDate) OR ('2020-11-11' BETWEEN rentalDate  AND endDate)) AND h.idHotel ==Room.hotelId AND h.idHotel IN (Select  distinct h.idHotel from Room,Hotel as h where idRoom NOT IN(SELECT roomId FROM Reservation WHERE ('2020-11-09' BETWEEN rentalDate  AND endDate) OR ('2020-11-11' BETWEEN rentalDate  AND endDate)) and h.idHotel ==Room.hotelId GROUP BY  h.idHotel HAVING COUNT(h.idHotel) >= 2 ) ;
-
-
-
+UPDATE Reservation SET hotelId = 1, roomId = 3, rentalDate = '2020-06-21' , endDate = '2020-06-24' WHERE customerId = 2 AND (('2020-06-21' BETWEEN rentalDate AND endDate) OR ('2020-06-24' BETWEEN rentalDate AND endDate));

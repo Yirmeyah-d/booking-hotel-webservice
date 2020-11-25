@@ -77,22 +77,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for restCallBooking method
-            * override this method for handling normal response from restCallBooking operation
-            */
-           public void receiveResultrestCallBooking(
-                    hotelreservation.HotelReservationStub.RestCallBookingResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from restCallBooking operation
-           */
-            public void receiveErrorrestCallBooking(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for book method
             * override this method for handling normal response from book operation
             */
@@ -106,6 +90,22 @@
            * override this method for handling error response from book operation
            */
             public void receiveErrorbook(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for restCallBooking method
+            * override this method for handling normal response from restCallBooking operation
+            */
+           public void receiveResultrestCallBooking(
+                    hotelreservation.HotelReservationStub.RestCallBookingResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from restCallBooking operation
+           */
+            public void receiveErrorrestCallBooking(java.lang.Exception e) {
             }
                 
            /**
@@ -125,22 +125,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for authenticate method
-            * override this method for handling normal response from authenticate operation
-            */
-           public void receiveResultauthenticate(
-                    hotelreservation.HotelReservationStub.AuthenticateResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from authenticate operation
-           */
-            public void receiveErrorauthenticate(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for restCallAuthenticate method
             * override this method for handling normal response from restCallAuthenticate operation
             */
@@ -154,6 +138,22 @@
            * override this method for handling error response from restCallAuthenticate operation
            */
             public void receiveErrorrestCallAuthenticate(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for authenticate method
+            * override this method for handling normal response from authenticate operation
+            */
+           public void receiveResultauthenticate(
+                    hotelreservation.HotelReservationStub.AuthenticateResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from authenticate operation
+           */
+            public void receiveErrorauthenticate(java.lang.Exception e) {
             }
                 
            /**

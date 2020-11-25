@@ -18,8 +18,8 @@ public class CheckHotelsAvailable extends ServerResource {
 	public String toString() {
 		String rentalDate = (String) getRequestAttributes().get("rentalDate");
 		String nbNights = (String) getRequestAttributes().get("nbNights");
-
-		return "The client request is : " + rentalDate + " " + nbNights;
+		String nbRooms = (String) getRequestAttributes().get("nbRooms");
+		return "The client request is : " + rentalDate + " " + nbNights + " " + nbRooms;
 	}  
 	
 	
@@ -41,9 +41,10 @@ public class CheckHotelsAvailable extends ServerResource {
         Form form = new Form(entity);  
         String rentalDate = form.getFirstValue("rentalDate");  
         String nbNights = form.getFirstValue("nbNights");  
-        //List<Hotel> hotelsAvailable = conn.getHotelsAvailable(rentalDate, Integer.parseInt(nbNights),Integer.parseInt(nbRooms));
+        String nbRooms = form.getFirstValue("nbRooms");
+        List<Hotel> hotelsAvailable = conn.getHotelsAvailable(rentalDate, Integer.parseInt(nbNights),Integer.parseInt(nbRooms));
 
-        List<Hotel> hotelsAvailable = conn.getHotelsAvailable(rentalDate, Integer.parseInt(nbNights));
+        //List<Hotel> hotelsAvailable = conn.getHotelsAvailable(rentalDate, Integer.parseInt(nbNights));
 	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	    String json = gson.toJson(hotelsAvailable); // converts to json
 		

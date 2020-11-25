@@ -130,72 +130,83 @@ public class Main {
 	            int nbNights =  Integer.parseInt(scanner.nextLine());
 	            
 	            System.out.print( "Enter the number of rooms: ");
-	            int nbRoom =  Integer.parseInt(scanner.nextLine());
+	            int nbRooms =  Integer.parseInt(scanner.nextLine());
 	            
 	            CheckHotelsAvailable c = new CheckHotelsAvailable();
 	    		c.setRentalDate(rentalDate);
 	    		c.setNbNights(nbNights);
-	    		c.setNbRooms(nbRoom);
-	    		
-	    		System.out.print(hwp.checkHotelsAvailable(c).get_return());
-				System.out.print("\n");
-				
-				System.out.print( "enter the hotel id you want: ");
-				int hotelId =  Integer.parseInt(scanner.nextLine());
-				
-				System.out.print( "enter the room id you want: ");
-	            int roomId =  Integer.parseInt(scanner.nextLine());
-	            
-				CheckExistingReservation cer = new CheckExistingReservation();
-				cer.setIdCustomer(customerConnected.getId());
-				cer.setRentalDate(rentalDate);
-				cer.setNbNights(nbNights);
-				
+	    		c.setNbRooms(nbRooms);
+
 				String hotelsAvailableJson = hwp.checkHotelsAvailable(c).get_return();
-
-
 				ObjectMapper mapper = new ObjectMapper();
 				List<Hotel> hotelsAvailable = mapper.readValue(hotelsAvailableJson, new TypeReference<List<Hotel>>(){});
-				int isAvailable = 0;
-				for(Hotel hotel: hotelsAvailable){
-					  if(hotel.getId() == hotelId && hotel.getRoomId() == roomId) {
-						  isAvailable = 1;
-					  } 
-				}
-
-
-				
-
-				String anyExisting = hwp.checkExistingReservation(cer).get_return();
-				
-
-				if(Integer.parseInt(anyExisting)!=0 && isAvailable==1) {
-					System.out.print( "You already have existing reservation for these dates, do you want to replace it with the new one ? Y/N ");
-		            String customerResponse = scanner.nextLine();
-
-					Book b = new Book();
-					b.setHotelId(hotelId);
-					b.setRoomId(roomId);
-					b.setIdCustomer(customerConnected.getId());
-					b.setRentalDate(rentalDate);
-					b.setNbNights(nbNights);
-					b.setCustomerResponse(customerResponse);
-					System.out.print(hwp.book(b).get_return());
+		
+				if(hotelsAvailable.size()!=0) {
+		    		System.out.print(hotelsAvailableJson);
 					System.out.print("\n");
-
+					
+					System.out.print( "enter the hotel id you want: ");
+					int hotelId =  Integer.parseInt(scanner.nextLine());
+					
+					System.out.print( "enter the room id you want: ");
+		            int roomId =  Integer.parseInt(scanner.nextLine());
+		            
+					CheckExistingReservation cer = new CheckExistingReservation();
+					cer.setIdCustomer(customerConnected.getId());
+					cer.setRentalDate(rentalDate);
+					cer.setNbNights(nbNights);
+					
+	
+	
+					int isAvailable = 0;
+					for(Hotel hotel: hotelsAvailable){
+						  if(hotel.getId() == hotelId && hotel.getRoomId() == roomId) {
+							  isAvailable = 1;
+						  } 
+					}
+	
+	
+					
+	
+					String anyExisting = hwp.checkExistingReservation(cer).get_return();
+					
+	
+					if(Integer.parseInt(anyExisting)!=0 && isAvailable==1) {
+						String response = "Please answer Y or N";
+						while(response.equals("Please answer Y or N")){
+							System.out.print( "You already have existing reservation for these dates, do you want to replace it with the new one ? Y/N ");
+				            String customerResponse = scanner.nextLine();
+		
+							Book b = new Book();
+							b.setHotelId(hotelId);
+							b.setRoomId(roomId);
+							b.setIdCustomer(customerConnected.getId());
+							b.setRentalDate(rentalDate);
+							b.setNbNights(nbNights);
+							b.setNbRooms(nbRooms);
+							b.setCustomerResponse(customerResponse);
+							response = hwp.book(b).get_return();
+							System.out.print(response);
+							System.out.print("\n");
+						}
+					} else {
+						Book b = new Book();
+						b.setHotelId(hotelId);
+						b.setRoomId(roomId);
+						b.setIdCustomer(customerConnected.getId());
+						b.setRentalDate(rentalDate);
+						b.setNbNights(nbNights);
+						b.setNbRooms(nbRooms);
+	
+						b.setCustomerResponse(" ");
+						System.out.print(hwp.book(b).get_return());
+						System.out.print("\n");
+	
+					}
 				} else {
-					Book b = new Book();
-					b.setHotelId(hotelId);
-					b.setRoomId(roomId);
-					b.setIdCustomer(customerConnected.getId());
-					b.setRentalDate(rentalDate);
-					b.setNbNights(nbNights);
-					b.setCustomerResponse(" ");
-					System.out.print(hwp.book(b).get_return());
+					System.out.print("No hotels available for these dates and this number of room");
 					System.out.print("\n");
-
 				}
-				
 				
 	            System.out.print( "Do you want to book a new room ? Y/N ");
 	            String customerResponse = scanner.nextLine();
