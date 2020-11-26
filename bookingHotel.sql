@@ -36,7 +36,3 @@ INSERT INTO Reservation VALUES(6,1,1,2,"2020-06-21","2020-06-27");
 INSERT INTO Reservation VALUES(7,1,1,2,"2020-11-10","2020-11-20");
 
 
-
-SELECT * FROM Reservation WHERE customerId = 2 AND (('2020-06-21' BETWEEN rentalDate AND endDate) OR ('2020-06-24' BETWEEN rentalDate AND endDate));
-
-UPDATE Reservation SET hotelId = 1, roomId = 3, rentalDate = '2020-06-21' , endDate = '2020-06-24' WHERE customerId = 2 AND (('2020-06-21' BETWEEN rentalDate AND endDate) OR ('2020-06-24' BETWEEN rentalDate AND endDate));

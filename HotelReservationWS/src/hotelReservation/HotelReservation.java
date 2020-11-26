@@ -24,7 +24,8 @@ public class HotelReservation {
 		
         // Write the response entity on the console
 		try {
- 
+			
+			resource.release();
 			return resource.post(form).getText();
  
 		} catch (Exception e) {
@@ -61,7 +62,8 @@ public class HotelReservation {
 
         // Write the response entity on the console
 		try {
-
+			
+			resource.release();
 			return resource.post(form).getText();
 			
 		} catch (Exception e) {
@@ -89,7 +91,7 @@ public class HotelReservation {
 		
         // Write the response entity on the console
 		try {
- 
+			resource.release();
 			return resource.post(form).getText();
 			
 		} catch (Exception e) {
@@ -120,7 +122,7 @@ public class HotelReservation {
 		
         // Write the response entity on the console
 		try {
- 
+			resource.release();
 			return resource.post(form).getText();
 			
 		} catch (Exception e) {
@@ -153,6 +155,7 @@ public class HotelReservation {
         // Write the response entity on the console
 		try {
  
+			resource.release();
 			return resource.post(form).getText();
  
 		} catch (Exception e) {

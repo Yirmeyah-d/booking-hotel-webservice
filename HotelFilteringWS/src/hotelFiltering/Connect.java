@@ -211,7 +211,7 @@ public class Connect {
 			}
 		} else if (Integer.parseInt(existingReservation)!=0 && customerResponse.equals("N"))  {
 			result = "We keep your last reservation, Reservation successful";
-		} else if (Integer.parseInt(existingReservation)!=0 && (!customerResponse.equals("N") || !customerResponse.equals("Y")) )  {
+		} else if (Integer.parseInt(existingReservation)!=0 && (!customerResponse.equals("N") || !customerResponse.equals("Y"))  && result.equals("Reservation successful") )  {
 			result = "Please answer Y or N";
 		} else {
 		
